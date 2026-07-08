@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"kulkasku/internal/config"
 	foodHandler "kulkasku/internal/handler/food"
+	recipeHandler "kulkasku/internal/handler/recipe"
 	userHandler "kulkasku/internal/handler/user"
 	foodRepository "kulkasku/internal/repository/food"
+	recipeRepository "kulkasku/internal/repository/recipe"
 	userRepository "kulkasku/internal/repository/user"
 	foodService "kulkasku/internal/service/food"
+	recipeService "kulkasku/internal/service/recipe"
 	userService "kulkasku/internal/service/user"
 	"kulkasku/pkg/internalsql"
 	"net/http"
@@ -47,6 +50,11 @@ func main() {
 	foodService := foodService.NewService(foodRepository)
 	fh := foodHandler.NewHandler(res, validate, foodService)
 	fh.RouteList(cfg.SecretJwt)
+
+	recipeRepo := recipeRepository.NewRepository(db)
+	recipeSvc := recipeService.NewService(foodRepository, recipeRepo)
+	rh := recipeHandler.NewHandler(res, validate, recipeSvc)
+	rh.RouteList(cfg.SecretJwt)
 
 	server := fmt.Sprintf("127.0.0.1:%s", cfg.Port)
 	res.Run(server)
