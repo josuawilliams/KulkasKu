@@ -27,4 +27,5 @@ func (h *Handler) RouteList(secretKey string) {
 	foodRoute.Use(middleware.AuthMiddleware(secretKey))
 	foodRoute.POST("/create", h.CreateFood)
 	foodRoute.GET("/list", h.GetList)
+	foodRoute.DELETE("/delete/:id", h.Delete)
 }

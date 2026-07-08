@@ -9,6 +9,7 @@ import (
 type FoodRepository interface {
 	CreateFood(ctx context.Context, model *model.Food) (int64, error)
 	GetFoodsByUserId(ctx context.Context, userId int64) ([]*model.Food, error)
+	DeleteFood(ctx context.Context, foodId, userId int64) error
 }
 
 type foodRepository struct {
