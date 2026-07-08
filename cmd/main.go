@@ -4,12 +4,16 @@ import (
 	"fmt"
 	"kulkasku/internal/config"
 	foodHandler "kulkasku/internal/handler/food"
+	notificationHandler "kulkasku/internal/handler/notification"
 	recipeHandler "kulkasku/internal/handler/recipe"
 	userHandler "kulkasku/internal/handler/user"
 	foodRepository "kulkasku/internal/repository/food"
+	notificationRepository "kulkasku/internal/repository/notification"
 	recipeRepository "kulkasku/internal/repository/recipe"
 	userRepository "kulkasku/internal/repository/user"
+	"kulkasku/internal/scheduler"
 	foodService "kulkasku/internal/service/food"
+	notificationService "kulkasku/internal/service/notification"
 	recipeService "kulkasku/internal/service/recipe"
 	userService "kulkasku/internal/service/user"
 	"kulkasku/pkg/internalsql"
@@ -55,6 +59,14 @@ func main() {
 	recipeSvc := recipeService.NewService(foodRepository, recipeRepo)
 	rh := recipeHandler.NewHandler(res, validate, recipeSvc)
 	rh.RouteList(cfg.SecretJwt)
+
+	notifRepo := notificationRepository.NewRepository(db)
+	notifSvc := notificationService.NewService(foodRepository, notifRepo)
+	nh := notificationHandler.NewHandler(res, validate, notifSvc)
+	nh.RouteList(cfg.SecretJwt)
+
+	sched := scheduler.New(foodRepository, notifRepo)
+	sched.Start()
 
 	server := fmt.Sprintf("127.0.0.1:%s", cfg.Port)
 	res.Run(server)

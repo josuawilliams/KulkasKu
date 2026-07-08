@@ -8,6 +8,7 @@ import (
 
 type RecipeRepository interface {
 	SaveRecipe(ctx context.Context, recipe *model.Recipe) (int64, error)
+	DeleteRecipe(ctx context.Context, recipeId, userId int64) error
 }
 
 type recipeRepository struct {

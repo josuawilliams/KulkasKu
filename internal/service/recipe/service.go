@@ -11,6 +11,7 @@ import (
 type RecipeService interface {
 	Generate(ctx context.Context, userId int64) (*helper.WebResponse, error)
 	Save(ctx context.Context, req *dto.SaveRecipeRequest, userId int64) (*helper.WebResponse, error)
+	Delete(ctx context.Context, recipeId, userId int64) (*helper.WebResponse, error)
 }
 
 type recipeService struct {
