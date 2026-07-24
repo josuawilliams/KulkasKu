@@ -14,6 +14,7 @@ type FoodRepository interface {
 	GetExpiringFoods(ctx context.Context, from, to time.Time) ([]*model.Food, error)
 	GetUserIDsWithMinFoods(ctx context.Context, min int) ([]int64, error)
 	GetFirstFoodIdByUserId(ctx context.Context, userId int64) (int64, error)
+	GetFoodById(ctx context.Context, foodId, userId int64) (*model.Food, error)
 }
 
 type foodRepository struct {

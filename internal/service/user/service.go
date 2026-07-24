@@ -13,6 +13,8 @@ type UserService interface {
 	Login(ctx context.Context, loginRequest *dto.LoginRequest) (*helper.WebResponse, error)
 	RefreshToken(ctx context.Context, refreshTokenRequest *dto.RefreshTokenRequest, userId int64) (*helper.WebResponse, error)
 	LoginGoogle(ctx context.Context, loginGoogleRequest *dto.LoginGoogleRequest) (*helper.WebResponse, error)
+	UpdatePassword(ctx context.Context, req *dto.UpdatePasswordRequest, userId int64) (*helper.WebResponse, error)
+	Me(ctx context.Context, userId int64) (*helper.WebResponse, error)
 }
 
 type userService struct {

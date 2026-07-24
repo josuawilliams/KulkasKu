@@ -16,6 +16,8 @@ type UserRepository interface {
 	StoreRefreshToken(ctx context.Context, model *model.RefreshToken) error
 	GetUserById(ctx context.Context, userId int64) (*model.User, error)
 	DeleteRefreshToken(ctx context.Context, userId int64) error
+	UpdateUserGoogle(ctx context.Context, userId int64, googleId, avatarURL string) error
+	UpdateUserPassword(ctx context.Context, userId int64, passwordHash string) error
 }
 
 type userRepository struct {
